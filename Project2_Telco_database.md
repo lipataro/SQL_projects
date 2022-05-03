@@ -1,10 +1,10 @@
 # Project 2 - Telco database
 
-1. There are three tables under telecommunication database, namely event, demographic and cell described as below.
-    1. Event: is a table for data usage of 100 customers of a telco provider for 1 sample day of their Facebook, Instagram, YouTube, Netflix and WhatsApp.
-    2. Cell: is a table of cell ids that customers were at with their latitude and longitude
-    3. Demographic: is a table of subscribers with their demographics such as gender.
-2. Copy these tables under your sandbox database.
+- There are three tables under telecommunication database, namely event, demographic and cell described as below.
+    - Event: is a table for data usage of 100 customers of a telco provider for 1 sample day of their Facebook, Instagram, YouTube, Netflix and WhatsApp.
+    - Cell: is a table of cell ids that customers were at with their latitude and longitude
+    - Demographic: is a table of subscribers with their demographics such as gender.
+- Copy these tables under your sandbox database.
 
 ```sql
 CREATE TABLE cell AS SELECT * FROM telecommunication.cell; 
@@ -12,8 +12,8 @@ CREATE TABLE demographic AS SELECT * FROM telecommunication.demographic ;
 CREATE TABLE event AS SELECT * FROM telecommunication.event ;
 ```
 
-1. Get familiar with the tables and number of rows and columns
-2. Create a table with average duration of stay (dwell time in minutes) of each customer at each cell that customer stayed at least 5 minutes. (provide your query as well. This table should have three columns, subscriber_id, aircomcellid, duration_minutes)
+- Get familiar with the tables and number of rows and columns
+- Create a table with average duration of stay (dwell time in minutes) of each customer at each cell that customer stayed at least 5 minutes. (provide your query as well. This table should have three columns, subscriber_id, aircomcellid, duration_minutes)
 
 ```sql
 CREATE TABLE cell_stay AS 
@@ -47,7 +47,7 @@ SELECT * FROM cell_stay LIMIT 9;
 | 072b030ba126b2f4b2374f342be9ed44 | A | 190 |
 | 072b030ba126b2f4b2374f342be9ed44 | B | 892 |
 | 072b030ba126b2f4b2374f342be9ed44 | C | 268 |
-1. Create a table with histogram which has two columns, interval and cnt_sub, in which interval is 100 minutes (0,100,200,300,400,500,600, etc.) and cnt_sub is how many subscribers stayed on average at each cell more than 5 minutes on each interval. (provide your query as well)
+- Create a table with histogram which has two columns, interval and cnt_sub, in which interval is 100 minutes (0,100,200,300,400,500,600, etc.) and cnt_sub is how many subscribers stayed on average at each cell more than 5 minutes on each interval. (provide your query as well)
 
 ```sql
 CREATE TABLE if not exists histogram (
@@ -98,7 +98,7 @@ SELECT * FROM histogram;
 | 700 | 46 |
 | 800 | 27 |
 | 900 | 9 |
-1.  Which customer_id has longest avg dwell time (don’t consider stays at cells that were less than 5 minutes) and which customer_id has shortest.
+- Which customer_id has longest avg dwell time (don’t consider stays at cells that were less than 5 minutes) and which customer_id has shortest.
 
 ```sql
 # Shortest average dwell time 
@@ -121,7 +121,7 @@ FROM cell_stay limit 1;
 | subscriber_id | aircomcellid | duration_minutes | rnk |
 | --- | --- | --- | --- |
 | 35f4a8d465e6e1edc05f3d8ab658c551 | B | 893 | 1 |
-1. What is the total bytesdown and bytesup usage of netflix between 8 to 10 pm? Compare this usage with netflix usage between 8 and 10 am.
+- What is the total bytesdown and bytesup usage of netflix between 8 to 10 pm? Compare this usage with netflix usage between 8 and 10 am.
 
 ```sql
 SELECT SUM(bytesdown), SUM(bytesup) FROM event
@@ -161,7 +161,7 @@ HAVING moment_of_day IS NOT NULL;
 | --- | --- | --- |
 | evening | 43896969 | 780130 |
 | morning | 7529198 | 381962 |
-1. On average which service has highest bytesdown?
+- On average which service has highest bytesdown?
 
 ```sql
 SELECT service, round(avg(sb.bytesdown)) AS avg_bytesdown FROM (
@@ -179,7 +179,7 @@ ORDER BY avg_bytesdown DESC;
 | Facebook | 101479 |
 | YouTube | 80166 |
 | WhatsApp | 7748 |
-1. Which cell_id has highest load (bytesdown + bytesup) on Youtube?
+- Which cell_id has highest load (bytesdown + bytesup) on Youtube?
 
 ```sql
 SELECT SUM(CASE WHEN service = 'YouTube' THEN bytesup + bytesdown  ELSE 0 END) AS Youtube_load,
@@ -192,7 +192,7 @@ ORDER BY Youtube_load DESC LIMIT 1;
 | Youtube_load | aircomcellid |
 | --- | --- |
 | 82237170 | B |
-1. Which hour of the day we have highest data consumption on each cells? Do all cells are on highest peak at the same hour of the day?
+- Which hour of the day we have highest data consumption on each cells? Do all cells are on highest peak at the same hour of the day?
 
 ```sql
 SELECT `hour`, aircomcellid, total_load AS max_load
@@ -215,7 +215,7 @@ WHERE ranked.rnk = 1;
 | 21 | A | 24798354 |
 | 20 | B | 57332524 |
 | 23 | C | 33127868 |
-1. What portion of males and females use Netflix? 
+- What portion of males and females use Netflix?
 
 ```sql
 SELECT d.gender, COUNT(DISTINCT(e.subscriber_id)) AS `USE_NETFLIX [%]`  
@@ -229,8 +229,7 @@ GROUP BY gender ;   #Since count(subscribers)=100, no need for calculating %
 | --- | --- |
 | Female | 47 |
 | Male | 53 |
-
-What portion of males and females use instagram? 
+- What portion of males and females use instagram?
 
 ```sql
 SELECT d.gender, COUNT(DISTINCT(e.subscriber_id)) AS `USE_INSTAGRAM [%]`  
@@ -244,8 +243,7 @@ GROUP BY gender ;   #Since count(subscribers)=100, no need for calculating %
 | --- | --- |
 | Female | 47 |
 | Male | 53 |
-
-Which service is mostly used (duration) by males?
+- Which service is mostly used (duration) by males?
 
 ```sql
 with shifted as (
